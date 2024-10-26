@@ -30,6 +30,7 @@
   padding: 11px 20px;
   border: 1px solid var(--color-gray);
   border-radius: 22px;
+  outline: none;
   
 }
 

@@ -1,0 +1,38 @@
+.footer {
+padding-top: 28px;
+}
+
+.footer__line {
+  padding-top: 30px;
+}
+
+
+.footer__line-horizontal-line {
+  color: var(--color-gray);
+  margin: 0;
+}
+
+.footer__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__content-copyright {
+  margin-top: auto;
+  color: var(--color-black);
+}
+
+.footer__content-links {
+  display: flex;
+  gap: 15px;
+}
+
+.footer__content-links-item {
+  align-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: var(--color-orange);
+  text-align: center;
+}

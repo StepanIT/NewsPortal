@@ -1,11 +1,3 @@
-.news {
-
-}
-
-.section {
-
-}
-
 .news__block {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -58,16 +50,4 @@
 .news__card-text-signature-block {
   display: flex;
   gap: 12px;
-}
-
-.news__card-text-signature-date {
-
-}
-
-.news__card-text-signature-time {
-
-}
-
-.news__card-text-signature-name {
-
 }

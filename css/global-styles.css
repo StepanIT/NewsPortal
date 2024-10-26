@@ -1,3 +1,21 @@
+@font-face {
+  font-family: Roboto;
+  src: local(Roboto), local('Roboto-Regular'),
+      url(../fonts/Roboto-Regular.ttf) format("woff2"),
+      url(../fonts/Roboto-Regular.ttf) format("woff");
+      font-weight: 400;
+      font-display: swap;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: local(Roboto), local('Roboto-Bold'),
+      url(../fonts/Roboto-Bold.ttf) format("woff2"),
+      url(../fonts/Roboto-Bold.ttf) format("woff");
+      font-weight: 700;
+      font-display: swap;
+}
+
 html {
     position: relative;
     box-sizing: border-box;
@@ -20,7 +38,7 @@ html {
   body {
     min-width: 320px;
     min-height: 100vh;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: var(--color-white);
     
   }

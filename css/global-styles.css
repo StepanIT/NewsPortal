@@ -1,36 +1,14 @@
-@font-face {
-    font-family: lato;
-    src: local(Lato), local('Lato-Regular'),
-        url(../fonts/lato-regular.woff2) format("woff2"),
-        url(../fonts/lato-regular.woff) format("woff");
-        font-weight: 400;
-        font-display: swap;
-  }
-  
-  @font-face {
-    font-family: lato;
-    src: local(Lato), local('Lato-Bold'),
-        url(../fonts/lato-bold.woff2) format("woff2"),
-        url(../fonts/lato-bold.woff) format("woff");
-        font-weight: 700;
-        font-display: swap;
-  }
-  
-  html {
+html {
     position: relative;
     box-sizing: border-box;
   }
   
   :root {
     --color-white: #FFFFFF;
-    --color-white-1: #EFEFEF;
-    --color-red: #F91155;
-    --color-blue: #3670C7;
-    --color-lightblue: #38C0EB;
-    --color-yellow: #FFBD13;
-    --color-shadow: rgba(0, 0, 0, 0.25);
-    --color-black: #2D2D2D;
-    --color-gray: #8F8F8F;;
+    --color-orange: #F2994A;
+    --color-black: #212121;
+    --color-gray: #8E8E8E;
+;
   }
   
   *,
@@ -94,12 +72,12 @@
   }
   
   .container {
-    max-width: 1830px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 30px;
-  }
+  } 
   
   .section {
-    padding-top: 45px;
-    padding-bottom: 45px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }

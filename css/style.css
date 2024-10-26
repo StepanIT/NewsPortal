@@ -1,2 +1,5 @@
 @import "normalize.css";
-@import "global-style.css";
+@import "global-styles.css";
+@import "header.css";
+@import "result-search.css";
+@import "news.css";

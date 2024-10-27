@@ -1,7 +1,6 @@
 const api = 'f072880e4d084243895d992f59d6aaf7';
-const newsBlock = document.querySelector('.news__block');
-const newsBlockTrends = document.getElementById('news-block');
-
+const footer = document.getElementById('footer');
+const header = document.getElementById('header');
 
 const fetchHeadlines = async () => {
   try {
@@ -33,7 +32,25 @@ const searchNews = async (query) => {
 
 
 const displayArticles = (articles) => {
-  newsBlock.innerHTML = '';
+  const resultSearch = document.createElement('div')
+  resultSearch.classList.add('result__search', 'section');
+
+  resultSearch.innerHTML = `
+    <hr class="result__search-line">
+        <div class="container">
+          <p class="result__search-text">
+            По вашему запросу “Россия” найдено 8 результатов
+          </p>
+        </div>
+        <hr class="result__search-line">
+  `
+  const news = document.createElement('div')
+  news.classList.add('news', 'section');
+  const container = document.createElement('div')
+  container.classList.add('container');
+  const newsBlock = document.createElement('div')
+  newsBlock.classList.add('news__block');
+
   articles.forEach(article => {
     const articleCard = document.createElement('div');
     articleCard.classList.add('news__card');
@@ -71,10 +88,32 @@ const displayArticles = (articles) => {
     `;
 
     newsBlock.appendChild(articleCard);
+    container.appendChild(newsBlock);
+    news.appendChild(container);
+    header.insertAdjacentElement('afterend', resultSearch);
+    resultSearch.insertAdjacentElement('afterend', news);
   });
 }
 const displayArticlesTrends = (data) => {
-  newsBlockTrends.innerHTML = '';
+  const resultSearchTrends = document.createElement('div')
+  resultSearchTrends.classList.add('result__search', 'section');
+
+  resultSearchTrends.innerHTML = `
+    <hr class="result__search-line">
+        <div class="container">
+          <p class="result__search-text">
+            Свежие новости
+          </p>
+        </div>
+        <hr class="result__search-line">
+  `
+  const newsTrends = document.createElement('div')
+  newsTrends.classList.add('news', 'section');
+  const container = document.createElement('div')
+  container.classList.add('container');
+  const newsBlockTrends = document.createElement('div')
+  newsBlockTrends.classList.add('news__block');
+
   data.forEach(article => {
     const articleCardTrends = document.createElement('div');
     articleCardTrends.classList.add('news__card');
@@ -112,16 +151,20 @@ const displayArticlesTrends = (data) => {
     `;
 
     newsBlockTrends.appendChild(articleCardTrends);
+    container.appendChild(newsBlockTrends);
+    newsTrends.appendChild(container);
+    document.body.insertBefore(resultSearchTrends, footer);
+    document.body.insertBefore(newsTrends, footer);
   });
 }
 
 document.querySelector('.header__search-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const query = e.target.elements[0].value;
-
   try {
     const [searchResults, headlines] = await Promise.all([searchNews(query), fetchHeadlines()]);
-    displayArticles([...searchResults, ...headlines]);
+    displayArticles([...searchResults]);
+    displayArticlesTrends([...headlines]);
   } catch (error) {
     console.error('Error fetching news:', error);
   }

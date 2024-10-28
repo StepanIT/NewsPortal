@@ -29,23 +29,29 @@ const searchNews = async (query) => {
   return data.articles.slice(0, 8);
 }
 
+const clearResults = () => {
+  const results = document.querySelectorAll('.search__news, .news__search');
+  results.forEach(element => element.remove());
+};
+
+const displayArticles = (articles, query) => {
+  clearResults();
 
 
-const displayArticles = (articles) => {
   const resultSearch = document.createElement('div')
-  resultSearch.classList.add('result__search', 'section');
+  resultSearch.classList.add('result__search', 'section', 'search__news');
 
   resultSearch.innerHTML = `
     <hr class="result__search-line">
         <div class="container">
           <p class="result__search-text">
-            По вашему запросу “Россия” найдено 8 результатов
+            По вашему запросу “${query}” найдено ${articles.length} результатов
           </p>
         </div>
         <hr class="result__search-line">
   `
   const news = document.createElement('div')
-  news.classList.add('news', 'section');
+  news.classList.add('news', 'section', 'news__search');
   const container = document.createElement('div')
   container.classList.add('container');
   const newsBlock = document.createElement('div')
@@ -158,13 +164,27 @@ const displayArticlesTrends = (data) => {
   });
 }
 
+const saveSearchResults = (query, articles) => {
+  const searchData = { query, articles };
+  sessionStorage.setItem('lastSearch', JSON.stringify(searchData));
+};
+
+
+const loadSavedSearch = () => {
+  const savedData = JSON.parse(sessionStorage.getItem('lastSearch'));
+  if (savedData) {
+    displayArticles(savedData.articles, savedData.query);
+  }
+};
+
+
 document.querySelector('.header__search-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const query = e.target.elements[0].value;
   try {
-    const [searchResults, headlines] = await Promise.all([searchNews(query), fetchHeadlines()]);
+    const [searchResults] = await Promise.all([searchNews(query)]);
     displayArticles([...searchResults]);
-    displayArticlesTrends([...headlines]);
+    saveSearchResults(query, searchResults);
   } catch (error) {
     console.error('Error fetching news:', error);
   }
@@ -173,6 +193,7 @@ document.querySelector('.header__search-form').addEventListener('submit', async 
 export const init = async () => {
   const headlines = await fetchHeadlines();
   displayArticlesTrends(headlines);
+  loadSavedSearch();
 };
 
 document.addEventListener('DOMContentLoaded', init);

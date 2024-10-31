@@ -25,7 +25,7 @@
                 </button>
               </form>
               <div class="header__list">
-                <input class="header__list-input" type="text" placeholder="Россия">
+                <input id="countryInput" class="header__list-input" type="text" placeholder="Россия" disabled>
                 <button class="header__list-btn" type="submit" aria-label="Открыть список">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_1501_348)">
@@ -37,6 +37,14 @@
                       </clipPath>
                     </defs>
                   </svg>
+                </button>
+                <div class="select__country">
+                  <ul class="select__country-list">
+                    <li class="select__country-list-item" data-country="ru">Россия</li>
+                    <li class="select__country-list-item" data-country="us">США</li>
+                    <li class="select__country-list-item" data-country="de">Германия</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

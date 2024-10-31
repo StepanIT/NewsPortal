@@ -1,16 +1,19 @@
+import preload from './preload.js';
+
 const api = 'f072880e4d084243895d992f59d6aaf7';
 const footer = document.getElementById('footer');
 const header = document.getElementById('header');
 
-const fetchHeadlines = async () => {
+
+const fetchHeadlines = async (country = 'us', limit = 8) => {
   try {
-    const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${api}`);
+    const response = await fetch(`https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${api}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    
+
     const data = await response.json();
-    return data.articles.slice(0, 4);
+    return data.articles.slice(0, limit);
   } catch (error) {
-    console.error("Error fetching headlines:", error);
+    console.error('Error fetching headlines:', error);
     return [];
   }
 };
@@ -19,18 +22,47 @@ const searchNews = async (query) => {
   try {
     const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=${api}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    
+
     const data = await response.json();
     return data.articles.slice(0, 8);
   } catch (error) {
-    console.error("Error fetching search results:", error);
+    console.error('Error fetching search results:', error);
     return [];
   }
 };
 
 const clearResults = () => {
-  document.querySelectorAll('.search__news, .news__search').forEach(element => element.remove());
+  document.querySelectorAll('.search__news, .news__search').forEach(element =>
+    element.remove());
 };
+const clearResultsTrends = () => {
+  document.querySelectorAll('.news, .result__search').forEach(element =>
+    element.remove());
+};
+
+
+const headerListBtn = document.querySelector('.header__list-btn');
+const countryDropdown = document.querySelector('.select__country');
+const countryInput = document.getElementById('countryInput');
+
+
+headerListBtn.addEventListener('click', () => {
+  const isVisible = countryDropdown.style.display === 'block';
+  countryDropdown.style.display = isVisible ? 'none' : 'block';
+});
+
+
+countryDropdown.addEventListener('click', (event) => {
+  if (event.target.tagName === 'LI') {
+    const selectedCountry = event.target.dataset.country;
+    countryInput.value = event.target.textContent;
+    countryDropdown.style.display = 'none';
+
+
+    fetchHeadlines(selectedCountry);
+  }
+});
+
 
 const displayArticles = (articles, query) => {
   clearResults();
@@ -59,7 +91,8 @@ const displayArticles = (articles, query) => {
     articleCard.classList.add('news__card');
     articleCard.innerHTML = `
       <div class="news__card-image">
-        <img class="news__card-img" src="${article.urlToImage}" alt="${article.title}">
+        <img class="news__card-img" src="${article.urlToImage}" 
+        alt="${article.title}">
       </div>
       <div class="news__card-main">
         <div class="news__card-main-text">
@@ -67,17 +100,22 @@ const displayArticles = (articles, query) => {
         </div>
         <button class="news__card-main-link">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 6H18V16M18 6L6 18L18 6Z" stroke="#F2994A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M8 6H18V16M18 6L6 18L18 6Z" stroke="#F2994A"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
       </div>
-      <div class="news__card-text-description">${article.description || 'Описание недоступно'}</div>
+      <div class="news__card-text-description">${article.description ||
+       'Описание недоступно'}</div>
       <div class="news__card-text-signature">
         <div class="news__card-text-signature-block">
-          <p class="news__card-text-signature-date">${new Date(article.publishedAt).toLocaleDateString()}</p>
-          <p class="news__card-text-signature-time">${new Date(article.publishedAt).toLocaleTimeString()}</p>
+          <p class="news__card-text-signature-date">
+          ${new Date(article.publishedAt).toLocaleDateString()}</p>
+          <p class="news__card-text-signature-time">
+          ${new Date(article.publishedAt).toLocaleTimeString()}</p>
         </div>
-        <p class="news__card-text-signature-name">${article.author || 'Unknown'}</p>
+        <p class="news__card-text-signature-name">
+        ${article.author || 'Unknown'}</p>
       </div>
     `;
     newsBlock.appendChild(articleCard);
@@ -114,25 +152,33 @@ const displayArticlesTrends = (articles) => {
     articleCardTrends.classList.add('news__card');
     articleCardTrends.innerHTML = `
       <div class="news__card-image">
-        <img class="news__card-img" src="${article.urlToImage}" alt="${article.title}">
+        <img class="news__card-img"
+         src="${article.urlToImage}" alt="${article.title}">
       </div>
       <div class="news__card-main">
         <div class="news__card-main-text">
-          <a href="${article.url}" target="_blank">${article.title}</a>
+          <a href="${article.url}"
+           target="_blank">${article.title}</a>
         </div>
         <button class="news__card-main-link">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 6H18V16M18 6L6 18L18 6Z" stroke="#F2994A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M8 6H18V16M18 6L6 18L18 6Z"
+             stroke="#F2994A" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </button>
       </div>
-      <div class="news__card-text-description">${article.description || 'Описание недоступно'}</div>
+      <div class="news__card-text-description">${article.description ||
+       'Описание недоступно'}</div>
       <div class="news__card-text-signature">
         <div class="news__card-text-signature-block">
-          <p class="news__card-text-signature-date">${new Date(article.publishedAt).toLocaleDateString()}</p>
-          <p class="news__card-text-signature-time">${new Date(article.publishedAt).toLocaleTimeString()}</p>
+          <p class="news__card-text-signature-date">
+          ${new Date(article.publishedAt).toLocaleDateString()}</p>
+          <p class="news__card-text-signature-time">
+          ${new Date(article.publishedAt).toLocaleTimeString()}</p>
         </div>
-        <p class="news__card-text-signature-name">${article.author || 'Unknown'}</p>
+        <p class="news__card-text-signature-name">
+        ${article.author || 'Unknown'}</p>
       </div>
     `;
     newsBlockTrends.appendChild(articleCardTrends);
@@ -144,31 +190,29 @@ const displayArticlesTrends = (articles) => {
   document.body.insertBefore(newsTrends, footer);
 };
 
-const saveSearchResults = (query, articles) => {
-  sessionStorage.setItem('lastSearch', JSON.stringify({ query, articles }));
-};
+document.querySelector('.header__search-form').addEventListener(
+  'submit', async (e) => {
+    e.preventDefault();
+    const query = e.target.elements[0].value;
+    try {
+      clearResultsTrends();
+      preload.show();
+      const [headlines, searchResults] =
+       await Promise.all([fetchHeadlines(4), searchNews(query)]);
+      displayArticlesTrends(headlines);
+      displayArticles(searchResults, query);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    }
+    preload.remove();
+  });
 
-const loadSavedSearch = () => {
-  const savedData = JSON.parse(sessionStorage.getItem('lastSearch'));
-  if (savedData) displayArticles(savedData.articles, savedData.query);
-};
 
-document.querySelector('.header__search-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const query = e.target.elements[0].value;
-  try {
-    const searchResults = await searchNews(query);
-    displayArticles(searchResults, query);
-    saveSearchResults(query, searchResults);
-  } catch (error) {
-    console.error('Error fetching news:', error);
-  }
-});
-
-export const init = async () => {
-  const headlines = await fetchHeadlines();
+const init = async () => {
+  preload.show();
+  const headlines = await fetchHeadlines('us', 8);
   displayArticlesTrends(headlines);
-  loadSavedSearch();
+  preload.remove();
 };
 
 document.addEventListener('DOMContentLoaded', init);

@@ -5,7 +5,7 @@ const footer = document.getElementById('footer');
 const header = document.getElementById('header');
 
 
-const fetchHeadlines = async (country = 'us', limit = 8) => {
+const fetchHeadlines = async (country = 'ru', limit = 8) => {
   try {
     const response = await fetch(`https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${api}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -49,18 +49,6 @@ const countryInput = document.getElementById('countryInput');
 headerListBtn.addEventListener('click', () => {
   const isVisible = countryDropdown.style.display === 'block';
   countryDropdown.style.display = isVisible ? 'none' : 'block';
-});
-
-
-countryDropdown.addEventListener('click', (event) => {
-  if (event.target.tagName === 'LI') {
-    const selectedCountry = event.target.dataset.country;
-    countryInput.value = event.target.textContent;
-    countryDropdown.style.display = 'none';
-
-
-    fetchHeadlines(selectedCountry);
-  }
 });
 
 
@@ -190,6 +178,28 @@ const displayArticlesTrends = (articles) => {
   document.body.insertBefore(newsTrends, footer);
 };
 
+let selectedCountry = 'ru';
+
+countryDropdown.addEventListener('click', async (event) => {
+  if (event.target.tagName === 'LI') {
+    selectedCountry = event.target.dataset.country;
+    countryInput.value = event.target.textContent;
+    countryDropdown.style.display = 'none';
+
+    clearResultsTrends();
+    preload.show();
+
+    try {
+      const headlines = await fetchHeadlines(selectedCountry, 8);
+      displayArticlesTrends(headlines);
+    } catch (error) {
+      console.error('Error fetching news for selected country:', error);
+    } finally {
+      preload.remove();
+    }
+  }
+});
+
 document.querySelector('.header__search-form').addEventListener(
   'submit', async (e) => {
     e.preventDefault();
@@ -198,7 +208,8 @@ document.querySelector('.header__search-form').addEventListener(
       clearResultsTrends();
       preload.show();
       const [headlines, searchResults] =
-       await Promise.all([fetchHeadlines(4), searchNews(query)]);
+       await Promise.all([fetchHeadlines(selectedCountry, 4),
+         searchNews(query)]);
       displayArticlesTrends(headlines);
       displayArticles(searchResults, query);
     } catch (error) {
@@ -210,7 +221,7 @@ document.querySelector('.header__search-form').addEventListener(
 
 const init = async () => {
   preload.show();
-  const headlines = await fetchHeadlines('us', 8);
+  const headlines = await fetchHeadlines(selectedCountry, 8);
   displayArticlesTrends(headlines);
   preload.remove();
 };

@@ -19,12 +19,12 @@ headerListBtn.addEventListener('click', () => {
   countryDropdown.style.display = isVisible ? 'none' : 'block';
 });
 
-let selectedCountry = 'us';
+export let selectedCountry = 'us';
 
-countryDropdown.addEventListener('click', async (event) => {
-  if (event.target.tagName === 'LI') {
-    selectedCountry = event.target.dataset.country;
-    countryInput.value = event.target.textContent;
+countryDropdown.addEventListener('click', async (e) => {
+  if (e.target.tagName === 'LI') {
+    selectedCountry = e.target.dataset.country;
+    countryInput.value = e.target.textContent;
     countryDropdown.style.display = 'none';
 
     clearResultsTrends();

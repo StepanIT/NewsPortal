@@ -1,5 +1,5 @@
 .footer {
-padding-top: 28px;
+  padding-top: 28px;
 }
 
 .footer__line {
@@ -21,6 +21,7 @@ padding-top: 28px;
 .footer__content-copyright {
   margin-top: auto;
   color: var(--color-black);
+  font-size: 12px;
 }
 
 .footer__content-links {
@@ -35,4 +36,27 @@ padding-top: 28px;
   border-radius: 100%;
   background-color: var(--color-orange);
   text-align: center;
+}
+
+@media (max-width: 500px) {
+  .footer__content {
+    gap: 5px;
+  }
+
+  .footer__content-logo {
+    width: 60px;
+  }
+  
+  .footer__content-copyright {
+    font-size: 10px;
+  }
+  
+  .footer__content-links {
+    gap: 5px;
+  }
+  
+  .footer__content-links-item {
+    width: 25px;
+    height: 25px;
+  }
 }

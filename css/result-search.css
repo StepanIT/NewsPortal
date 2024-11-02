@@ -14,3 +14,15 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+@media (max-width: 800px) {
+  .result__search-text {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 620px) {
+  .result__search-text {
+    font-size: 18px;
+  }
+}

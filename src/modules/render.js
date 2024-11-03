@@ -89,19 +89,17 @@ export const displayArticlesTrends = (sources) => {
     articleCardTrends.classList.add('news__card');
     articleCardTrends.innerHTML = `
       <div class="news__card-image">
-        <img class="news__card-img"
-         src="${article.url}" alt="${article.name}">
+        <img class="news__card-img" src="${article.urlToImage}" 
+        alt="${article.title}">
       </div>
       <div class="news__card-main">
         <div class="news__card-main-text">
-          <a href="${article.url}"
-           target="_blank">${article.name}</a>
+          <a href="${article.url}" target="_blank">${article.title}</a>
         </div>
         <button class="news__card-main-link">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 6H18V16M18 6L6 18L18 6Z"
-             stroke="#F2994A" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
+            <path d="M8 6H18V16M18 6L6 18L18 6Z" stroke="#F2994A"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
       </div>
@@ -110,12 +108,12 @@ export const displayArticlesTrends = (sources) => {
       <div class="news__card-text-signature">
         <div class="news__card-text-signature-block">
           <p class="news__card-text-signature-date">
-            ${new Date(article.publishedAt).toLocaleDateString()}</p>
+          ${new Date(article.publishedAt).toLocaleDateString()}</p>
           <p class="news__card-text-signature-time">
-            ${new Date(article.publishedAt).toLocaleTimeString()}</p>
+          ${new Date(article.publishedAt).toLocaleTimeString()}</p>
         </div>
         <p class="news__card-text-signature-name">
-          ${article.author || 'Unknown'}</p>
+        ${article.author || 'Unknown'}</p>
       </div>
     `;
     newsBlockTrends.appendChild(articleCardTrends);

@@ -64,7 +64,7 @@ export const displayArticles = (articles, query) => {
   resultSearch.insertAdjacentElement('afterend', news);
 };
 
-export const displayArticlesTrends = (articles) => {
+export const displayArticlesTrends = (sources) => {
   clearResults();
 
   const resultSearchTrends = document.createElement('div');
@@ -84,18 +84,18 @@ export const displayArticlesTrends = (articles) => {
   const newsBlockTrends = document.createElement('div');
   newsBlockTrends.classList.add('news__block');
 
-  articles.forEach(article => {
+  sources.forEach(article => {
     const articleCardTrends = document.createElement('div');
     articleCardTrends.classList.add('news__card');
     articleCardTrends.innerHTML = `
       <div class="news__card-image">
         <img class="news__card-img"
-         src="${article.urlToImage}" alt="${article.title}">
+         src="${article.url}" alt="${article.name}">
       </div>
       <div class="news__card-main">
         <div class="news__card-main-text">
           <a href="${article.url}"
-           target="_blank">${article.title}</a>
+           target="_blank">${article.name}</a>
         </div>
         <button class="news__card-main-link">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,12 +110,12 @@ export const displayArticlesTrends = (articles) => {
       <div class="news__card-text-signature">
         <div class="news__card-text-signature-block">
           <p class="news__card-text-signature-date">
-          ${new Date(article.publishedAt).toLocaleDateString()}</p>
+            ${new Date(article.publishedAt).toLocaleDateString()}</p>
           <p class="news__card-text-signature-time">
-          ${new Date(article.publishedAt).toLocaleTimeString()}</p>
+            ${new Date(article.publishedAt).toLocaleTimeString()}</p>
         </div>
         <p class="news__card-text-signature-name">
-        ${article.author || 'Unknown'}</p>
+          ${article.author || 'Unknown'}</p>
       </div>
     `;
     newsBlockTrends.appendChild(articleCardTrends);

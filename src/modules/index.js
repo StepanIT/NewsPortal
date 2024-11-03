@@ -1,4 +1,4 @@
-import { selectedCountry } from './controls.js';
+import {selectedCountry} from './controls.js';
 import {fetchHeadlines} from './fetchRequest.js';
 import preload from './preload.js';
 import {displayArticlesTrends} from './render.js';
